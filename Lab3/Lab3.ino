@@ -2,6 +2,7 @@
 #include <Wire.h>
 // addr,en,rw,rs,d4,d5,d6,d7,bl,blpol
 // addr can be 0x3F or 0x27
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define tripin 11
 #define echopin 10
 #define IR1Pin 4 
@@ -47,7 +48,7 @@ void setup() {
 void loop() {
 	lcd.println ("Path Clear");
  	move( 3 , 2 , 2000 , 200);
-	ultrasound(void);
+	ultrasound();
 }
 
 void move(int x, int y, int z, int v)
