@@ -137,7 +137,7 @@ void ultrasound (void)
 	while (dist<10)
   {
    	lcd.println("Path Blocked!!!");
-	move (4,3,2000,200)	
+	move (4,3,2000,200);
   }
   return;
 }
