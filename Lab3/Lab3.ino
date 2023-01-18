@@ -130,6 +130,7 @@ void move(int x, int y, int z, int v)
 		break;
 		} 
 }
+
 void IR (){
 IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
 IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
