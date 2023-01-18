@@ -23,8 +23,6 @@ void ultrasound(void);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
-int address;
-void lcd (int);
 
 void setup() {
 	pinMode(9, OUTPUT);
@@ -46,7 +44,7 @@ void setup() {
 
 // the loop function runs over and over again until power down or reset
 // x -> direction, y -> action, z -> delay, v -> speed
-// x, 1 -> left, 2 -> right , 3 -> both
+// x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 // z -> delay
 // v -> speed
@@ -54,7 +52,6 @@ void loop() {
 	lcd.println ("Path Clear");
  	move( 3 , 2 , 2000 , 200);
 	ultrasound();
-	lcd(address);
 }
 
 void move(int x, int y, int z, int v)
@@ -158,4 +155,3 @@ void lcd(int address)
   lcd.println ("Robot is heading to ");
   lcd.println (address);
 }
-	   	    
