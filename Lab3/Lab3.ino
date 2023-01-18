@@ -8,6 +8,8 @@
 #define IR2Pin 7
 int IR1_Val = 0, IR2_Val = 0;
 
+
+
 // left 9 6
 // right 5 3
 
@@ -38,6 +40,7 @@ void setup() {
 
 // the loop function runs over and over again until power down or reset
 // x -> direction, y -> action, z -> delay, v -> speed
+// x, 1 -> left, 2 -> right , 3 -> both
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 // z -> delay
 // v -> speed
@@ -122,6 +125,7 @@ void move(int x, int y, int z, int v)
 		break;
 		}
 }
+
 
 void ultrasound (void)
 {
