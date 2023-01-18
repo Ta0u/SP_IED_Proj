@@ -16,6 +16,7 @@ int IR1_Val = 0, IR2_Val = 0;
 #define right_a 5
 #define right_b 3
 void move(int x, int y, int z, int v);
+void ultrasound(void);
 char x;
 int y, z;
 
@@ -27,7 +28,12 @@ void setup() {
 	pinMode(4,INPUT_PULLUP);
 	pinMode(7,INPUT_PULLUP);
 	Serial.begin(9600);
-
+        pinMode(tripin, OUTPUT);
+        pinMode(echopin, INPUT);
+        lcd.init();
+        lcd.setCursor(0,0);
+        lcd.begin(16, 2); // 16 characters, 2 lines
+        lcd.backlight();  // turn backlight on
 }
 
 // the loop function runs over and over again until power down or reset
@@ -36,7 +42,9 @@ void setup() {
 // z -> delay
 // v -> speed
 void loop() {
-  move( 3 , 2 , 2000 , 200);
+	lcd.println ("Path Clear");
+ 	move( 3 , 2 , 2000 , 200);
+	ultrasound(void);
 }
 
 void move(int x, int y, int z, int v)
@@ -113,4 +121,19 @@ void move(int x, int y, int z, int v)
 		}
 		break;
 		}
+}
+
+void ultrasound (void)
+{
+	digitalWrite(tripin, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(tripin, LOW);
+        delayMicroseconds(10);
+        int dist = pulseIn(echopin, HIGH) / 58;
+	while (dist<10)
+  {
+   	lcd.println("Path Blocked!!!");
+	move (4,3,2000,200)	
+  }
+  return;
 }
