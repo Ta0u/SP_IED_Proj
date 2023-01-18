@@ -8,8 +8,6 @@
 #define IR2Pin 7
 int IR1_Val = 0, IR2_Val = 0;
 
-
-
 // left 9 6
 // right 5 3
 
@@ -20,7 +18,6 @@ int IR1_Val = 0, IR2_Val = 0;
 void move(int x, int y, int z, int v);
 char x;
 int y, z;
-
 
 void setup() {
 	pinMode(9, OUTPUT);
