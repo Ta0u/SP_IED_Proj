@@ -44,7 +44,7 @@ void setup() {
 
 // the loop function runs over and over again until power down or reset
 // x -> direction, y -> action, z -> delay, v -> speed
-// x, 1 -> left, 2 -> right , 3 -> both
+// x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 // z -> delay
 // v -> speed
