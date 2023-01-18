@@ -4,8 +4,8 @@
 // addr can be 0x3F or 0x27
 #define tripin 11
 #define echopin 10
-#define IR1Pin 4 
-#define IR2Pin 7
+#define IR1Pin 4 //right
+#define IR2Pin 2  //left
 int IR1_Val = 0, IR2_Val = 0;
 
 
@@ -20,14 +20,14 @@ int IR1_Val = 0, IR2_Val = 0;
 void move(int x, int y, int z, int v);
 char x;
 int y, z;
-
+void IR (void);
 void setup() {
 	pinMode(9, OUTPUT);
 	pinMode(6, OUTPUT);
 	pinMode(5, OUTPUT);
 	pinMode(3, OUTPUT);
 	pinMode(4,INPUT_PULLUP);
-	pinMode(7,INPUT_PULLUP);
+	pinMode(2,INPUT_PULLUP);
 	Serial.begin(9600);
 
 }
@@ -115,6 +115,20 @@ void move(int x, int y, int z, int v)
 			// both
 		}
 		break;
-		}
+		} 
 }
+void IR (){
+IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
+IR1_Va2 = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
+	// 1=black 0=white pin2,IR2=left pin4,IR1=right
+if (IR1_Val == 0 && IR2_Val == 0){
+	//reverse a little
+}elif(IR1_Val == 0 && IR2_Val == 1){
+// turn right
+}elif(IR1_Val == 1 && IR2_Val ==0){
+// turn left
+}else{
+// forward
+}
+	
 
