@@ -155,7 +155,7 @@ void lcd(int address)
   lcd.print("Robot is ready");
   delay(500);
   lcd.setCursor(0,1);
-  lcd.println (Robot is heading to ");
+  lcd.println ("Robot is heading to ");
   lcd.println (address);
 }
 	   	    
