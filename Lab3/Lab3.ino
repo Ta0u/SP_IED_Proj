@@ -20,6 +20,7 @@ int IR1_Val = 0, IR2_Val = 0;
 #define right_b 3
 void move(int x, int y, int z, int v);
 void ultrasound(void);
+void lcdscreen(int address);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
@@ -144,4 +145,14 @@ void ultrasound (void)
 	move (4,3,2000,200);
   }
   return;
+}
+
+void lcdscreen(int address)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Robot is ready");
+  delay(500);
+  lcd.setCursor(0,1);
+  lcd.println ("Robot is heading to ");
+  lcd.println (address);
 }
