@@ -23,6 +23,8 @@ void ultrasound(void);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
+int address;
+void lcd (int);
 
 void setup() {
 	pinMode(9, OUTPUT);
@@ -52,6 +54,7 @@ void loop() {
 	lcd.println ("Path Clear");
  	move( 3 , 2 , 2000 , 200);
 	ultrasound();
+	lcd(address);
 }
 
 void move(int x, int y, int z, int v)
@@ -145,3 +148,14 @@ void ultrasound (void)
   }
   return;
 }
+
+void lcd(int address)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Robot is ready");
+  delay(500);
+  lcd.setCursor(0,1);
+  lcd.println (Robot is heading to ");
+  lcd.println (address);
+}
+	   	    
