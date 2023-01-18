@@ -5,8 +5,8 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define tripin 11
 #define echopin 10
-#define IR1Pin 4 
-#define IR2Pin 7
+#define IR1Pin 4 //right
+#define IR2Pin 2  //left
 int IR1_Val = 0, IR2_Val = 0;
 
 
@@ -24,14 +24,14 @@ void lcdscreen(int address);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
-
+void IR (void);
 void setup() {
 	pinMode(9, OUTPUT);
 	pinMode(6, OUTPUT);
 	pinMode(5, OUTPUT);
 	pinMode(3, OUTPUT);
 	pinMode(4,INPUT_PULLUP);
-	pinMode(7,INPUT_PULLUP);
+	pinMode(2,INPUT_PULLUP);
 	pinMode(4,INPUT_PULLUP); //IR1 right
 	pinMode(2,INPUT_PULLUP);//IR2 left
 	Serial.begin(9600);
@@ -128,7 +128,21 @@ void move(int x, int y, int z, int v)
 			// both
 		}
 		break;
-		}
+		} 
+}
+void IR (){
+IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
+IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
+	// 1=black 0=white pin2,IR2=left pin4,IR1=right
+if (IR1_Val == 0 && IR2_Val == 0){
+	//reverse a little
+}else if(IR1_Val == 0 && IR2_Val == 1){
+// turn right
+}else if(IR1_Val == 1 && IR2_Val ==0){
+// turn left
+}else{
+// forward
+}
 }
 
 
