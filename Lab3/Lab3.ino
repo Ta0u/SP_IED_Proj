@@ -22,6 +22,7 @@ void move(int x, int y, int z, int v);
 void ultrasound(void);
 char x;
 int y, z;
+int IR1_Val = 0;int IR2_Val=0; 
 
 void setup() {
 	pinMode(9, OUTPUT);
@@ -30,6 +31,8 @@ void setup() {
 	pinMode(3, OUTPUT);
 	pinMode(4,INPUT_PULLUP);
 	pinMode(7,INPUT_PULLUP);
+	pinMode(4,INPUT_PULLUP); //IR1 right
+	pinMode(2,INPUT_PULLUP);//IR2 left
 	Serial.begin(9600);
         pinMode(tripin, OUTPUT);
         pinMode(echopin, INPUT);
