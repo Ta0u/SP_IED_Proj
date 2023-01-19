@@ -53,7 +53,7 @@ void setup() {
 // v -> speed
 void loop() {
 	lcd.println ("Path Clear");
- 	move( 3 , 2 , 2000 , 200);
+ 	IR();
 	ultrasound();
 }
 
@@ -133,26 +133,35 @@ void move(int x, int y, int z, int v)
 		}
 }
 
-void IR (){
+void IR(void)
+{
 IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
 IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
-	// 1=black 0=white pin2,IR2=left pin4,IR1=right
+  // 1=black 0=white pin2,IR2=left pin4,IR1=right
 if (IR1_Val == 1 && IR2_Val == 1){
-	//reverse a little
-	move(3,3,1,1);
-}else{ if(IR1_Val == 1 && IR2_Val == 0){
+  //stops
+  lcd.println("stop");
+  move(3,4,50,90);
+}else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
-	move(2,2,1,2);move(1,1,1,0);
-}else{ if(IR1_Val == 0 && IR2_Val ==1){
+lcd.println("right"); 
+ move(1,2,50,105);move(2,2,50,110);
+}else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
-	move(1,2,1,2);move(2,1,1,0);
-}else{
+lcd.println("left");
+  move(2,3,100,105);move(1,3,50,110);
+}else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
-	move(3,2,2,2);
-	
-	// x, 1 -> left motor , 2 -> right motor , 3 -> both motors
+lcd.println("forward");
+  move(3,2,50,90);
+  // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
-}}}
+}else{
+// stop
+lcd.println("stop");
+  move(3,4,50,90);
+}
+ lcd.clear();
 }
 
 
