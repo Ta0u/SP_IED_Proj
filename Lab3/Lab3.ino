@@ -21,7 +21,7 @@ int IR1_Val = 0, IR2_Val = 0;
 void move(int x, int y, int z, int v);
 void ultrasound(void);
 void lcdscreen(int address);
-void buzzersound(void);
+void buzzersoundsound(void);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
@@ -181,7 +181,7 @@ void lcdscreen(int address)
   lcd.println (address);
 }
 
-void buzzersound(void)
+void buzzersoundsound (void)
 {
 	for(int i=0;i<11;i++)
     {
