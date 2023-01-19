@@ -143,7 +143,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else{ if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 	move(2,2,1,2);move(1,1,1,0);
-}else{ if(IR1_Val == 1 && IR2_Val ==0){
+}else{ if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 	move(1,2,1,2);move(2,1,1,0);
 }else{
