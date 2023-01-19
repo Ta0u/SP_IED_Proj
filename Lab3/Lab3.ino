@@ -5,10 +5,10 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define tripin 11
 #define echopin 10
-#define IR1Pin 4 //right
-#define IR2Pin 2  //left
+#define IR1Pin 4 
+#define IR2Pin 7
 int IR1_Val = 0, IR2_Val = 0;
-
+#define buzzer A1
 
 
 // left 9 6
@@ -21,22 +21,24 @@ int IR1_Val = 0, IR2_Val = 0;
 void move(int x, int y, int z, int v);
 void ultrasound(void);
 void lcdscreen(int address);
+void buzzersoundsound(void);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
-void IR (void);
+
 void setup() {
 	pinMode(9, OUTPUT);
 	pinMode(6, OUTPUT);
 	pinMode(5, OUTPUT);
 	pinMode(3, OUTPUT);
 	pinMode(4,INPUT_PULLUP);
-	pinMode(2,INPUT_PULLUP);
+	pinMode(7,INPUT_PULLUP);
 	pinMode(4,INPUT_PULLUP); //IR1 right
 	pinMode(2,INPUT_PULLUP);//IR2 left
 	Serial.begin(9600);
         pinMode(tripin, OUTPUT);
         pinMode(echopin, INPUT);
+	pinMode(buzzer,OUTPUT);
         lcd.init();
         lcd.setCursor(0,0);
         lcd.begin(16, 2); // 16 characters, 2 lines
@@ -128,7 +130,7 @@ void move(int x, int y, int z, int v)
 			// both
 		}
 		break;
-		} 
+		}
 }
 
 void IR (){
@@ -177,4 +179,16 @@ void lcdscreen(int address)
   lcd.setCursor(0,1);
   lcd.println ("Robot is heading to ");
   lcd.println (address);
+}
+
+void buzzersoundsound (void)
+{
+	for(int i=0;i<11;i++)
+    {
+		digitalWrite(buzzer,HIGH);
+		delay(1);
+                digitalWrite(buzzer,LOW);
+                delay(1);
+    }
+       delay(500);
 }
