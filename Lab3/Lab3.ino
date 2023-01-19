@@ -25,7 +25,6 @@ void buzzersoundsound(void);
 void IR(void);
 char x;
 int y, z;
-int IR1_Val = 0;int IR2_Val=0; 
 
 void setup() {
 	pinMode(9, OUTPUT);
