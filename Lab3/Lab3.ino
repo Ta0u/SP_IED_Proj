@@ -20,7 +20,8 @@ int IR1_Val = 0, IR2_Val = 0;
 #define right_b 3
 void move(int x, int y, int z, int v);
 void ultrasound(void);
-void buzzer(void);
+void lcdscreen(int address);
+void buzzersound(void);
 char x;
 int y, z;
 int IR1_Val = 0;int IR2_Val=0; 
@@ -132,6 +133,28 @@ void move(int x, int y, int z, int v)
 		}
 }
 
+void IR (){
+IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
+IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
+	// 1=black 0=white pin2,IR2=left pin4,IR1=right
+if (IR1_Val == 0 && IR2_Val == 0){
+	//reverse a little
+	move(3,3,1,1);
+}else if(IR1_Val == 0 && IR2_Val == 1){
+// turn right
+	move(2,2,1,2);move(1,1,1,0);
+}else if(IR1_Val == 1 && IR2_Val ==0){
+// turn left
+	move(1,2,1,2);move(2,1,1,0);
+}else{
+// forward
+	move(3,2,2,2);
+	
+	// x, 1 -> left motor , 2 -> right motor , 3 -> both motors
+// y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
+}
+}
+
 
 void ultrasound (void)
 {
@@ -148,7 +171,17 @@ void ultrasound (void)
   return;
 }
 
-void buzzer(void)
+void lcdscreen(int address)
+{
+  lcd.setCursor(0,0);
+  lcd.print("Robot is ready");
+  delay(500);
+  lcd.setCursor(0,1);
+  lcd.println ("Robot is heading to ");
+  lcd.println (address);
+}
+
+void buzzersound(void)
 {
 	for(int i=0;i<11;i++)
     {
