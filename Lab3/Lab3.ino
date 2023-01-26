@@ -12,7 +12,7 @@ int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int il = 0 ,yl = 0;
-int mohg = 2 ; //Address Variable
+int mohg = 2 ; //Address Variable 1 ~ 9
 
 
 
@@ -49,6 +49,7 @@ void setup() {
         lcd.setCursor(0,0);
         lcd.begin(16, 2); // 16 characters, 2 lines
         lcd.backlight();  // turn backlight on
+		Pathfindr();
 }
 
 // the loop function runs over and over again until power down or reset
