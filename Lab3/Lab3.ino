@@ -1,5 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include <string.h>
 // addr,en,rw,rs,d4,d5,d6,d7,bl,blpol
 // addr can be 0x3F or 0x27
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -9,6 +10,10 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define IR2Pin 7
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
+int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
+int il = 0 ,yl = 0;
+int mohg = 2 ; //Address Variable
+
 
 
 // left 9 6
@@ -23,6 +28,7 @@ void ultrasound(void);
 void lcdscreen(int address);
 void buzzersoundsound(void);
 void IR(void);
+void Pathfindr(void);
 char x;
 int y, z;
 
@@ -201,4 +207,21 @@ void buzzersoundsound (void)
                 delay(1);
     }
        delay(500);
+}
+
+void Pathfindr(void)
+{
+	for (int il = 0; il < 3; il++)
+	{
+		for (int yl = 0; yl < 3; yl++)
+		{
+			if (AddrList[il][yl] != mohg)
+			{}
+			else 
+			{
+				return;
+			}
+			
+		}
+	}
 }

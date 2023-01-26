@@ -6,18 +6,5 @@ int mohg = 7;
 
 int main()
 {
-    for (int il = 0; il < 3; il++)
-	{
-		for (int yl = 0; yl < 3; yl++)
-		{
-			if (AddrList[il][yl] != mohg)
-			{}
-			else 
-			{
-				    std :: cout << il<< ","  << yl << std :: endl;
-					return 0;
-			}
-			
-		}
-	}
+    
 }
