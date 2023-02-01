@@ -7,7 +7,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define tripin 11
 #define echopin 10
 #define IR1Pin 4 
-#define IR2Pin 7
+#define IR2Pin 2
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
