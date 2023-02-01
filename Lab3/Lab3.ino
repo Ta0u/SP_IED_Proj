@@ -11,7 +11,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 0;
+int il = 0 ,yl = 0 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
 
 
@@ -59,8 +59,16 @@ void setup() {
 // z -> delay
 // v -> speed
 void loop() {
-  lcd.clear();
-  IR();
+  if (chek <2)
+  {
+     lcd.clear();
+    IR();
+  }
+  else {
+  // turn around
+  IR(); //invert turn movement in IR stop for chek 3 , 4
+
+  }
 }
 
 void IR(void) {
@@ -71,6 +79,40 @@ if (IR1_Val == 1 && IR2_Val == 1){
   //stops
   lcd.println("stop");
   move(3,4,50,90);
+  switch (chek)
+  {
+  case 1:
+    switch (il)
+    {
+    case 0:
+      //left ++chek
+      break;
+    case 1:
+    //forward ++chek
+      break;
+    case 2:
+    //right ++chek
+      break;
+    default:
+      break;
+    }
+    break;
+ case 2:
+ switch (yl)
+    {
+    case 0:
+      //left ++chek
+      break;
+    case 1:
+    //forward ++chek
+      break;
+    case 2:
+    //right ++chek
+      break;
+  default:
+    break;
+  }
+}
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
