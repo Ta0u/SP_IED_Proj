@@ -11,7 +11,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 0 ,chek = 1;
+int il = 2 ,yl = 0 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
 
 
@@ -49,7 +49,6 @@ void setup() {
         lcd.setCursor(0,0);
         lcd.begin(16, 2); // 16 characters, 2 lines
         lcd.backlight();  // turn backlight on
-    Pathfindr();
 }
 
 // the loop function runs over and over again until power down or reset
@@ -59,15 +58,9 @@ void setup() {
 // z -> delay
 // v -> speed
 void loop() {
-  if (chek <2)
+  if (chek < 4)
   {
-     lcd.clear();
     IR();
-  }
-  else {
-  // turn around
-  IR(); //invert turn movement in IR stop for chek 3 , 4
-
   }
 }
 
@@ -78,20 +71,24 @@ IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
 if (IR1_Val == 1 && IR2_Val == 1){
   //stops
   lcd.println("stop");
-  move(3,4,50,90);
   switch (chek)
   {
   case 1:
     switch (il)
     {
     case 0:
-      //left ++chek
+  move(2,3,370,120);
+      //left 
+      ++chek;
       break;
     case 1:
-    //forward ++chek
+  move(3,2,400,120); //forward
+   ++chek;
       break;
     case 2:
-    //right ++chek
+  move(1,2,430,120);
+    //right 
+      ++chek;
       break;
     default:
       break;
@@ -101,13 +98,19 @@ if (IR1_Val == 1 && IR2_Val == 1){
  switch (yl)
     {
     case 0:
-      //left ++chek
+     move(2,3,500,120);
+      //left
+       ++chek;
       break;
     case 1:
-    //forward ++chek
+    move(3,2,400,120);
+    //forward 
+    ++chek;
       break;
     case 2:
-    //right ++chek
+    move(1,2,500,120);
+    //right 
+    ++chek;
       break;
   default:
     break;
@@ -252,17 +255,17 @@ void buzzersoundsound (void)
 
 void Pathfindr(void)
 {
-  for (int il = 0; il < 3; il++)
+   for (int il = -1; il < 2; il++)
   {
-    for (int yl = 0; yl < 3; yl++)
+    for (int yl = -1; yl < 2; yl++)
     {
       if (AddrList[il][yl] != mohg)
       {}
-      else 
+      else
       {
         return;
       }
-      
     }
+    yl = 0;
   }
 }
