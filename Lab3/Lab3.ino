@@ -14,7 +14,7 @@ int IR1_Val = 0, IR2_Val = 0;
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int il = 2 ,yl = 0 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
-int halt = 0;
+int halt = 0 , targetvalue = 0;
 
 
 
@@ -31,7 +31,7 @@ void lcdscreen(int address);
 void buzzersoundsound(void);
 void IR(void);
 void Pathfindr(void);
-void targetboard(void;)
+void targetboard(void);
 char x;
 int y, z;
 
@@ -65,8 +65,8 @@ void loop() {
   if (chek < 4)
   {
     IR();
-    ultrasound();
     targetboard();
+    ultrasound();
   }
 }
 
@@ -83,7 +83,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
     switch (il)
     {
     case 0:
-  move(2,3,370,120);
+  move(2,3,600,120);
       //left 
       ++chek;
       break;
@@ -92,7 +92,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
    ++chek;
       break;
     case 2:
-  move(1,2,430,120);
+  move(1,2,600,120);
     //right 
       ++chek;
       break;
@@ -104,7 +104,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
  switch (yl)
     {
     case 0:
-     move(2,3,500,120);
+     move(2,3,600,120);
       //left
        ++chek;
       break;
@@ -114,7 +114,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
     ++chek;
       break;
     case 2:
-    move(1,2,500,120);
+    move(1,2,600,120);
     //right 
     ++chek;
       break;
@@ -125,15 +125,15 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,50,105);move(2,2,50,110);
+ move(1,2,50,155);move(2,2,50,165);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,100,105);move(1,3,50,110);
+  move(2,3,100,155);move(1,3,50,165);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
-  move(3,2,50,90);
+  move(3,2,50,130);
   // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 }else{
@@ -224,15 +224,16 @@ void move(int x, int y, int z, int v)
 void ultrasound (void)
 {
   digitalWrite(tripin, HIGH);
-        delayMicroseconds(10);
+        delayMicroseconds(100);
         digitalWrite(tripin, LOW);
-        delayMicroseconds(10);
+        delayMicroseconds(100);
         int dist = pulseIn(echopin, HIGH) / 58;
   while (dist<10)
   {
     lcd.println("Path Blocked!!!");
   move (3,4,2000,200);
   lcd.clear();
+  return;
   }
   return;
 }
@@ -285,7 +286,7 @@ if (targetvalue == 0)
   {
     lcd.println("halt");
     move(3,4,50,90);
-    delay.millis (1000);
+    delay(1000);
     if (target == 0)
     {
       halt = 1;
@@ -299,5 +300,6 @@ if (targetvalue == 0)
   }
 }
 halt = 0;
+lcd.clear();
 return;
 }
