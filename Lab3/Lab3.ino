@@ -8,11 +8,13 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define echopin 10
 #define IR1Pin 4 
 #define IR2Pin 2
+#define target A1
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int il = 0 ,yl = 0 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
+int halt = 0;
 
 
 
@@ -29,6 +31,7 @@ void lcdscreen(int address);
 void buzzersoundsound(void);
 void IR(void);
 void Pathfindr(void);
+void targetboard(void;)
 char x;
 int y, z;
 
@@ -41,6 +44,7 @@ void setup() {
   pinMode(7,INPUT_PULLUP);
   pinMode(4,INPUT_PULLUP); //IR1 right
   pinMode(2,INPUT_PULLUP);//IR2 left
+  pinMode(target,INPUT_PULLUP);
   Serial.begin(9600);
         pinMode(tripin, OUTPUT);
         pinMode(echopin, INPUT);
@@ -63,6 +67,8 @@ void loop() {
   {
      lcd.clear();
     IR();
+    ultrasound();
+    targetboard();
   }
   else {
   // turn around
@@ -265,4 +271,30 @@ void Pathfindr(void)
       
     }
   }
+}
+
+void targetboard(void)
+{
+targetvalue = digitalRead(target);
+if (targetvalue == 0)
+{
+  while (halt < 1)
+  {
+    lcd.println("halt");
+    move(3,4,50,90);
+    delay.millis (1000);
+    if (target == 0)
+    {
+      halt = 1;
+      lcd.clear();
+    }
+    else
+    {
+      halt = 0;
+      lcd.clear();
+    }
+  }
+}
+halt = 0;
+return;
 }
