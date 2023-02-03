@@ -10,11 +10,11 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define IR2Pin 2
 #define target A1
 int IR1_Val = 0, IR2_Val = 0;
-#define buzzer A1
+#define buzzer A0
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 2 ,yl = 0 ,chek = 1;
+int il = 0 ,yl = 1 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
-int halt = 0 , targetvalue = 0;
+int halt = 0 , targetvalue;
 
 
 
@@ -65,7 +65,6 @@ void loop() {
   if (chek < 4)
   {
     IR();
-    targetboard();
     ultrasound();
   }
 }
@@ -83,7 +82,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
     switch (il)
     {
     case 0:
-  move(2,3,600,120);
+  move(2,3,450,120);
       //left 
       ++chek;
       break;
@@ -92,7 +91,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
    ++chek;
       break;
     case 2:
-  move(1,2,600,120);
+  move(1,2,450,120);
     //right 
       ++chek;
       break;
@@ -104,7 +103,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
  switch (yl)
     {
     case 0:
-     move(2,3,600,120);
+     move(2,3,450,120);
       //left
        ++chek;
       break;
@@ -114,7 +113,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
     ++chek;
       break;
     case 2:
-    move(1,2,600,120);
+    move(1,2,450,120);
     //right 
     ++chek;
       break;
@@ -125,21 +124,21 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,50,155);move(2,2,50,165);
+ move(1,2,150,90);move(2,2,150,90);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,100,155);move(1,3,50,165);
+  move(2,3,150,90);move(1,3,150,90);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
-  move(3,2,50,130);
+  move(3,2,150,80);
   // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 }else{
 // stop
 lcd.println("stop");
-  move(3,4,50,90);
+  move(3,4,150,80);
 }
  lcd.clear();
 }
@@ -224,14 +223,18 @@ void move(int x, int y, int z, int v)
 void ultrasound (void)
 {
   digitalWrite(tripin, HIGH);
-        delayMicroseconds(100);
+        delayMicroseconds(10);
         digitalWrite(tripin, LOW);
-        delayMicroseconds(100);
+        delayMicroseconds(10);
         int dist = pulseIn(echopin, HIGH) / 58;
   while (dist<10)
   {
     lcd.println("Path Blocked!!!");
-  move (3,4,2000,200);
+     digitalWrite(buzzer,HIGH);
+     delay(1);
+     move (3,4,2000,200);
+    digitalWrite(buzzer,LOW);
+    delay(1);
   lcd.clear();
   return;
   }
