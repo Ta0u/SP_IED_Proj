@@ -12,9 +12,9 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A1
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 0 ,chek = 1;
+int il = 2 ,yl = 0 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
-int halt = 0;
+int halt = 0 , targetvalue = 0;
 
 
 
@@ -31,7 +31,7 @@ void lcdscreen(int address);
 void buzzersoundsound(void);
 void IR(void);
 void Pathfindr(void);
-void targetboard(void;)
+void targetboard(void);
 char x;
 int y, z;
 
@@ -53,7 +53,6 @@ void setup() {
         lcd.setCursor(0,0);
         lcd.begin(16, 2); // 16 characters, 2 lines
         lcd.backlight();  // turn backlight on
-    Pathfindr();
 }
 
 // the loop function runs over and over again until power down or reset
@@ -63,17 +62,11 @@ void setup() {
 // z -> delay
 // v -> speed
 void loop() {
-  if (chek <2)
+  if (chek < 4)
   {
-     lcd.clear();
     IR();
-    ultrasound();
     targetboard();
-  }
-  else {
-  // turn around
-  IR(); //invert turn movement in IR stop for chek 3 , 4
-
+    ultrasound();
   }
 }
 
@@ -84,20 +77,24 @@ IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
 if (IR1_Val == 1 && IR2_Val == 1){
   //stops
   lcd.println("stop");
-  move(3,4,50,90);
   switch (chek)
   {
   case 1:
     switch (il)
     {
     case 0:
-      //left ++chek
+  move(2,3,600,120);
+      //left 
+      ++chek;
       break;
     case 1:
-    //forward ++chek
+  move(3,2,400,120); //forward
+   ++chek;
       break;
     case 2:
-    //right ++chek
+  move(1,2,600,120);
+    //right 
+      ++chek;
       break;
     default:
       break;
@@ -107,13 +104,19 @@ if (IR1_Val == 1 && IR2_Val == 1){
  switch (yl)
     {
     case 0:
-      //left ++chek
+     move(2,3,600,120);
+      //left
+       ++chek;
       break;
     case 1:
-    //forward ++chek
+    move(3,2,400,120);
+    //forward 
+    ++chek;
       break;
     case 2:
-    //right ++chek
+    move(1,2,600,120);
+    //right 
+    ++chek;
       break;
   default:
     break;
@@ -122,15 +125,15 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,50,105);move(2,2,50,110);
+ move(1,2,50,155);move(2,2,50,165);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,100,105);move(1,3,50,110);
+  move(2,3,100,155);move(1,3,50,165);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
-  move(3,2,50,90);
+  move(3,2,50,130);
   // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 }else{
@@ -221,15 +224,16 @@ void move(int x, int y, int z, int v)
 void ultrasound (void)
 {
   digitalWrite(tripin, HIGH);
-        delayMicroseconds(10);
+        delayMicroseconds(100);
         digitalWrite(tripin, LOW);
-        delayMicroseconds(10);
+        delayMicroseconds(100);
         int dist = pulseIn(echopin, HIGH) / 58;
   while (dist<10)
   {
     lcd.println("Path Blocked!!!");
   move (3,4,2000,200);
   lcd.clear();
+  return;
   }
   return;
 }
@@ -258,18 +262,18 @@ void buzzersoundsound (void)
 
 void Pathfindr(void)
 {
-  for (int il = 0; il < 3; il++)
+   for (int il = -1; il < 2; il++)
   {
-    for (int yl = 0; yl < 3; yl++)
+    for (int yl = -1; yl < 2; yl++)
     {
       if (AddrList[il][yl] != mohg)
       {}
-      else 
+      else
       {
         return;
       }
-      
     }
+    yl = 0;
   }
 }
 
@@ -282,7 +286,7 @@ if (targetvalue == 0)
   {
     lcd.println("halt");
     move(3,4,50,90);
-    delay.millis (1000);
+    delay(1000);
     if (target == 0)
     {
       halt = 1;
@@ -296,5 +300,6 @@ if (targetvalue == 0)
   }
 }
 halt = 0;
+lcd.clear();
 return;
 }
