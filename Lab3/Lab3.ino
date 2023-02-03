@@ -14,7 +14,7 @@ int IR1_Val = 0, IR2_Val = 0;
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int il = 2 ,yl = 0 ,chek = 1;
 int mohg = 2 ; //Address Variable 1 ~ 9
-int halt = 0 , targetvalue = 0;
+int halt = 0 , targetvalue;
 
 
 
@@ -65,7 +65,6 @@ void loop() {
   if (chek < 4)
   {
     IR();
-    targetboard();
     ultrasound();
   }
 }
@@ -232,6 +231,12 @@ void ultrasound (void)
   {
     lcd.println("Path Blocked!!!");
   move (3,4,2000,200);
+  int targetvalue = digitalRead(target);
+  while (targetvalue == 1)
+  {
+     lcd.clear();
+     lcd.println("Halt!!!");
+  }
   lcd.clear();
   return;
   }
