@@ -13,7 +13,7 @@ int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A0
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int il = 0 ,yl = 1 ,chek = 1;
-int mohg = 2 ; //Address Variable 1 ~ 9
+// int mohg = 2 ; Address Variable 1 ~ 9 **WIP
 int halt = 0 , targetvalue;
 
 
@@ -30,7 +30,7 @@ void ultrasound(void);
 void lcdscreen(int address);
 void buzzersoundsound(void);
 void IR(void);
-void Pathfindr(void);
+// void Pathfindr(void); **WIP
 void targetboard(void);
 char x;
 int y, z;
@@ -227,14 +227,17 @@ void ultrasound (void)
         digitalWrite(tripin, LOW);
         delayMicroseconds(10);
         int dist = pulseIn(echopin, HIGH) / 58;
-  while (dist<10)
+  if (dist<10)
   {
     lcd.println("Path Blocked!!!");
+     move (3,4,50,200);
+     for (auto de = 0; de < 20; de++)
+     {
      digitalWrite(buzzer,HIGH);
-     delay(1);
-     move (3,4,2000,200);
+     delay(2);
     digitalWrite(buzzer,LOW);
     delay(1);
+     }
   lcd.clear();
   return;
   }
@@ -263,7 +266,7 @@ void buzzersoundsound (void)
        delay(500);
 }
 
-void Pathfindr(void)
+/* void Pathfindr(void)
 {
    for (int il = -1; il < 2; il++)
   {
@@ -277,8 +280,8 @@ void Pathfindr(void)
       }
     }
     yl = 0;
-  }
-}
+  } ** WIP
+} */
 
 void targetboard(void)
 {
