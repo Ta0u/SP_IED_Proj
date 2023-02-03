@@ -12,7 +12,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A0
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 1 ,chek = 1;
+int il = 0 ,yl = 2 ,chek = 1;
 // int mohg = 2 ; Address Variable 1 ~ 9 **WIP
 int halt = 0 , targetvalue;
 
@@ -82,16 +82,16 @@ if (IR1_Val == 1 && IR2_Val == 1){
     switch (il)
     {
     case 0:
-  move(2,3,450,120);
+  move(2,3,470,120);
       //left 
       ++chek;
       break;
     case 1:
-  move(3,2,400,120); //forward
+  move(3,2,420,120); //forward
    ++chek;
       break;
     case 2:
-  move(1,2,450,120);
+  move(1,2,470,120);
     //right 
       ++chek;
       break;
@@ -103,17 +103,17 @@ if (IR1_Val == 1 && IR2_Val == 1){
  switch (yl)
     {
     case 0:
-     move(2,3,450,120);
+     move(2,3,470,120);
       //left
        ++chek;
       break;
     case 1:
-    move(3,2,400,120);
+    move(3,2,420,120);
     //forward 
     ++chek;
       break;
     case 2:
-    move(1,2,450,120);
+    move(1,2,470,120);
     //right 
     ++chek;
       break;
@@ -230,7 +230,7 @@ void ultrasound (void)
   if (dist<10)
   {
     lcd.println("Path Blocked!!!");
-     move (3,4,50,200);
+     move (3,3,50,200);
      for (auto de = 0; de < 20; de++)
      {
      digitalWrite(buzzer,HIGH);
