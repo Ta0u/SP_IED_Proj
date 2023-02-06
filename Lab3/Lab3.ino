@@ -40,7 +40,6 @@ void setup() {
   pinMode(6, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(3, OUTPUT);
-  pinMode(4,INPUT_PULLUP);
   pinMode(7,INPUT_PULLUP);
   pinMode(4,INPUT_PULLUP); //IR1 right
   pinMode(2,INPUT_PULLUP);//IR2 left
