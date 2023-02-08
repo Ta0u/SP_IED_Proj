@@ -12,7 +12,8 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A0
 int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 2 ,chek = 1;
+int il = 0 ,yl = 2 ,chek = 0;
+int Mohg [2] = {0,1};
 // int mohg = 2 ; Address Variable 1 ~ 9 **WIP
 int halt = 0 , targetvalue;
 
@@ -62,11 +63,12 @@ void setup() {
 // z -> delay
 // v -> speed
 void loop() {
-  if (chek < 4)
+  if (chek < 2)
   {
     IR();
     ultrasound();
   }
+  
 }
 
 void IR(void) {
@@ -76,63 +78,39 @@ IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
 if (IR1_Val == 1 && IR2_Val == 1){
   //stops
   lcd.println("stop");
-  switch (chek)
-  {
-  case 1:
-    switch (il)
+    switch (Mohg[chek])
     {
     case 0:
-  move(2,3,470,120);
+  move(2,3,470,150);
       //left 
       ++chek;
       break;
     case 1:
-  move(3,2,420,120); //forward
+  move(3,2,420,150); //forward
    ++chek;
       break;
     case 2:
-  move(1,2,470,120);
+  move(1,2,470,150);
     //right 
       ++chek;
       break;
     default:
+  move(3,4,150,80); //stop
       break;
     }
-    break;
- case 2:
- switch (yl)
-    {
-    case 0:
-     move(2,3,470,120);
-      //left
-       ++chek;
-      break;
-    case 1:
-    move(3,2,420,120);
-    //forward 
-    ++chek;
-      break;
-    case 2:
-    move(1,2,470,120);
-    //right 
-    ++chek;
-      break;
-  default:
-    break;
-  }
-}
+    
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,150,90);move(2,2,150,90);
+ move(1,2,150,120);move(2,2,150,120);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,150,90);move(1,3,150,90);
+  move(2,3,150,120);move(1,3,150,120);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
-  move(3,2,150,80);
+  move(3,2,150,100);
   // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 }else{
