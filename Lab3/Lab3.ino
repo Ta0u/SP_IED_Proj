@@ -40,8 +40,6 @@ void setup() {
   pinMode(6, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(3, OUTPUT);
-  pinMode(4,INPUT_PULLUP);
-  pinMode(7,INPUT_PULLUP);
   pinMode(4,INPUT_PULLUP); //IR1 right
   pinMode(2,INPUT_PULLUP);//IR2 left
   pinMode(target,INPUT_PULLUP);
@@ -56,10 +54,10 @@ void setup() {
 }
 
 // the loop function runs over and over again until power down or reset
-// x -> direction, y -> action, z -> delay, v -> speed
+// x -> direction, y -> action, z -> duration, v -> speed
 // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
-// z -> delay
+// z -> duration
 // v -> speed
 void loop() {
   if (chek < 4)
@@ -132,9 +130,9 @@ lcd.println("left");
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
-  move(3,2,50,130);
-  // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
-// y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
+  move(3,2,50,130); 
+  // for x, 1 -> left motor , 2 -> right motor , 3 -> both motors
+// for y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 }else{
 // stop
 lcd.println("stop");
@@ -153,7 +151,7 @@ void move(int x, int y, int z, int v)
     c = 0;
     d = 0;
     // no run
-  }
+  } 
     break;
   case 2:
   {
@@ -282,7 +280,7 @@ void Pathfindr(void)
   }
 }
 
-void targetboard(void)
+void targetboard(void) 
 {
 targetvalue = digitalRead(target);
 if (targetvalue == 0)
