@@ -67,14 +67,16 @@ void setup() {
 void loop() {
   if (chek < 3)
   {
-    targetvalue = 1;
+    IR();
+    IR();
     IR();
     ultrasound();
-  }
+  }else{
   lcd.clear();
   lcd.println("Reached");
   lcd.setCursor(0,1);
   lcd.println("Destination");
+  }
 }
 
 void IR(void) {
@@ -112,11 +114,11 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,120,120);move(2,2,120,120);
+ move(1,2,120,150);move(2,2,120,120);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,120,120);move(1,3,120,120);
+  move(2,3,120,120);move(1,3,120,150);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
