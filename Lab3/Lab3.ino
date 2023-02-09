@@ -13,9 +13,9 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define target A1
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A0
-int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
+// int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int il = 0 ,yl = 2 ,chek = 0;
-int Mohg [3] = {2,1,3};
+int Mohg [3] = {2,0,3};
 // int mohg = 2 ; Address Variable 1 ~ 9 **WIP
 int halt = 0 , targetvalue = 1;
 
@@ -69,7 +69,6 @@ void loop() {
   {
     IR();
     IR();
-    IR();
     ultrasound();
   }else{
   lcd.clear();
@@ -114,11 +113,11 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,120,150);move(2,2,120,120);
+ move(1,2,120,120);move(2,2,120,120);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,120,120);move(1,3,120,150);
+  move(2,3,120,120);move(1,3,120,120);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
