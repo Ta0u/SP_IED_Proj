@@ -71,7 +71,10 @@ void loop() {
     IR();
     ultrasound();
   }
-  
+  lcd.clear();
+  lcd.println("Reached");
+  lcd.setCursor(0,1);
+  lcd.println("Destination");
 }
 
 void IR(void) {
@@ -99,6 +102,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
       break;
     case 3:
   move(3,4,150,80); //stop
+      ++chek;
       break; 
     default:
   move(3,4,150,80); //stop
@@ -220,7 +224,7 @@ void ultrasound (void)
   {
     lcd.println("Path Blocked!!!");
      move (3,3,50,200);
-     for (targetvalue = 1; targetvalue != 0; targetvalue = digitalRead(target))
+     for (targetvalue = 1; targetvalue != 0;)
      {
      targetvalue = digitalRead(target);
      digitalWrite(buzzer,HIGH);
