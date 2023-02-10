@@ -12,10 +12,9 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define IR2Pin 2
 #define target A1
 #define buzzer A0
-int IR1_Val = 0, IR2_Val = 0, chek = 0;
-int Mohg [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = end
+int IR1_Val = 0, IR2_Val = 0, junc_count = 0;
+int address_arr [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = end
 // int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-// int mohg = 2 ; Address Variable 1 ~ 9 **WIP
 int halt = 0 , targetvalue = 1;
 
 
@@ -29,11 +28,10 @@ int halt = 0 , targetvalue = 1;
 #define right_b 3
 void move(int x, int y, int z, int v);
 void ultrasound(void);
-void lcdscreen(int address);
+//void lcdscreen(int address);
 void buzzersoundsound(void);
 void targetboardboard(void);
 void IR(void);
-// void Pathfindr(void); **WIP
 void targetboard(void);
 char x;
 int y, z;
@@ -47,25 +45,20 @@ void setup() {
   pinMode(2,INPUT_PULLUP);//IR2 left
   pinMode(target,INPUT_PULLUP);
   Serial.begin(9600);
-        pinMode(tripin_left, OUTPUT);
-        pinMode(echopin_left, INPUT);
-        pinMode(tripin_right, OUTPUT);
-        pinMode(echopin_right, INPUT);
+  pinMode(tripin_left, OUTPUT);
+  pinMode(echopin_left, INPUT);
+  pinMode(tripin_right, OUTPUT);
+  pinMode(echopin_right, INPUT);
   pinMode(buzzer,OUTPUT);
-        lcd.init();
-        lcd.setCursor(0,0);
-        lcd.begin(16, 2); // 16 characters, 2 lines
-        lcd.backlight();  // turn backlight on
+  lcd.init();
+  lcd.setCursor(0,0);
+  lcd.begin(16, 2); // 16 characters, 2 lines
+  lcd.backlight();  // turn backlight on
 }
 
 // the loop function runs over and over again until power down or reset
-// x -> direction, y -> action, z -> delay, v -> speed
-// x, 1 -> left motor , 2 -> right motor , 3 -> both motors
-// y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
-// z -> delay
-// v -> speed
 void loop() {
-  if (chek < 3)
+  if (junc_count < 3)
   {
     IR();
     IR();
@@ -83,55 +76,54 @@ IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
 IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
   // 1=black 0=white pin2,IR2=left pin4,IR1=right
 if (IR1_Val == 1 && IR2_Val == 1){
-  //stops
-  lcd.println("stop");
-    switch (Mohg[chek])
+  //junction, decide direction to proceed
+  lcd.println("Junction");
+    switch (address_arr[junc_count])
     {
     case 0:
-  move(2,3,470,150);
-      //left 
-      ++chek;
+      move(2,3,470,150);//left
+      ++junc_count;
       break;
     case 1:
-  move(3,2,420,150); //forward
-   ++chek;
+      move(3,2,420,150); //forward
+      ++junc_count;
       break;
     case 2:
-  move(1,2,470,150);
-    //right 
-      ++chek;
+      move(1,2,470,150); //right 
+      ++junc_count;
       break;
     case 3:
-  move(3,4,150,80); //stop
-      ++chek;
+      move(3,4,150,80); //stop
+      ++junc_count;
       break; 
     default:
-  move(3,4,150,80); //stop
+      move(3,4,150,80); //stop
       break;
-    }
-    
+    }    
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
-lcd.println("right"); 
- move(1,2,120,120);move(2,2,120,120);
+    lcd.println("Right"); 
+    move(1,2,120,120);move(2,2,120,120);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
-lcd.println("left");
-  move(2,3,120,120);move(1,3,120,120);
+    lcd.println("Left");
+    move(2,3,120,120);move(1,3,120,120);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
-lcd.println("forward");
-  move(3,2,120,100);
-  // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
-// y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
+    lcd.println("Forward");
+    move(3,2,120,100);
 }else{
 // stop
-lcd.println("stop");
-  move(3,4,150,80);
+    lcd.println("Stop");
+    move(3,4,150,80);
 }
- lcd.clear();
+    lcd.clear();
 }
-
+// x -> direction, y -> action, z -> delay, v -> speed
+// x, 1 -> left motor , 2 -> right motor , 3 -> both motors
+// y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
+// z -> delay
+// v -> speed
 void move(int x, int y, int z, int v)
 {
   int c, d;
@@ -139,30 +131,22 @@ void move(int x, int y, int z, int v)
   {
   case 1:
   {
-    c = 0;
-    d = 0;
-    // no run
+    c = 0;d = 0;// no run
   }
     break;
   case 2:
   {
-    c = 0;
-    d = v;
-    // forward
+    c = 0;d = v;// forward
   }
     break;
   case 3:
   {
-    c = v;
-    d = 0;
-    // reverse
+    c = v;d = 0;// reverse
   }
     break;
   case 4:
   {
-    c = 200;
-    d = 200;
-    // brake
+    c = 200;d = 200;// brake
   }
     break;
   }
@@ -202,7 +186,7 @@ void move(int x, int y, int z, int v)
       analogWrite(right_a, 200);
       analogWrite(right_b, 200);
       return;
-      // both
+      // forward
     }
     break;
     } 
@@ -212,15 +196,15 @@ void move(int x, int y, int z, int v)
 void ultrasound (void)
 {
   digitalWrite(tripin_left, HIGH);
-        delayMicroseconds(3);
-        digitalWrite(tripin_left, LOW);
-        delayMicroseconds(3);
-        int dist_1 = pulseIn(echopin_left, HIGH) / 58;
+  delayMicroseconds(3);
+  digitalWrite(tripin_left, LOW);
+  delayMicroseconds(3);
+  int dist_1 = pulseIn(echopin_left, HIGH) / 58;
   digitalWrite(tripin_right, HIGH);
-        delayMicroseconds(3);
-        digitalWrite(tripin_right, LOW);
-        delayMicroseconds(3);
-        int dist_2 = pulseIn(echopin_right, HIGH) / 58; // Sending Ultrasonic signals
+  delayMicroseconds(3);
+  digitalWrite(tripin_right, LOW);
+  delayMicroseconds(3);
+  int dist_2 = pulseIn(echopin_right, HIGH) / 58; // Sending Ultrasonic signals
   if (dist_1 < 10||dist_2 < 10)
   {
     lcd.println("Path Blocked!!!");
@@ -233,7 +217,7 @@ void ultrasound (void)
   return;
 }
 
-void lcdscreen(int address)
+/*void lcdscreen(int address)
 {
   lcd.setCursor(0,0);
   lcd.print("Robot is ready");
@@ -241,43 +225,15 @@ void lcdscreen(int address)
   lcd.setCursor(0,1);
   lcd.println ("Robot is heading to ");
   lcd.println (address);
-}
+}*/
 
 void buzzersoundsound (void)
 {
-     digitalWrite(buzzer,HIGH);
-     delay(2);
+    digitalWrite(buzzer,HIGH);
+    delay(2);
     digitalWrite(buzzer,LOW);
     delay(1);
 }
-
-/* void Pathfindr(void)
-{
-   for (int il = -1; il < 2; il++)
-  {
-    for (int yl = -1; yl < 2; yl++)
-    {
-      if (AddrList[il][yl] != mohg)
-      {}
-      else
-      {
-        return;
-      }
-    }
-    yl = 0;
-  } 
-} 
-  for(int i=0;i<11;i++)
-    {
-    digitalWrite(buzzer,HIGH);
-    delay(1);
-                digitalWrite(buzzer,LOW);
-                delay(1);
-    }
-       delay(500); WIP** */ 
-
-
-
 
 void targetboardboard (void){
      for (targetvalue = 1; targetvalue != 0;)
@@ -286,10 +242,6 @@ void targetboardboard (void){
      buzzersoundsound();
      }
 }
-
-
-
-
 
 void targetboard(void)
 {
