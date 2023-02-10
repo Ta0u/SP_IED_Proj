@@ -4,17 +4,20 @@
 // addr,en,rw,rs,d4,d5,d6,d7,bl,blpol
 // addr can be 0x3F or 0x27
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-#define tripin 11
-#define echopin 10
+#define tripin_left 8
+#define echopin_left 7
+#define tripin_right 11
+#define echopin_right 10
 #define IR1Pin 4 
 #define IR2Pin 2
 #define target A1
 int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A0
-int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 2 ,chek = 1;
+// int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
+int il = 0 ,yl = 2 ,chek = 0;
+int Mohg [3] = {2,0,3};
 // int mohg = 2 ; Address Variable 1 ~ 9 **WIP
-int halt = 0 , targetvalue;
+int halt = 0 , targetvalue = 1;
 
 
 
@@ -40,14 +43,14 @@ void setup() {
   pinMode(6, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(3, OUTPUT);
-  pinMode(4,INPUT_PULLUP);
-  pinMode(7,INPUT_PULLUP);
   pinMode(4,INPUT_PULLUP); //IR1 right
   pinMode(2,INPUT_PULLUP);//IR2 left
   pinMode(target,INPUT_PULLUP);
   Serial.begin(9600);
-        pinMode(tripin, OUTPUT);
-        pinMode(echopin, INPUT);
+        pinMode(tripin_left, OUTPUT);
+        pinMode(echopin_left, INPUT);
+        pinMode(tripin_right, OUTPUT);
+        pinMode(echopin_right, INPUT);
   pinMode(buzzer,OUTPUT);
         lcd.init();
         lcd.setCursor(0,0);
@@ -62,10 +65,16 @@ void setup() {
 // z -> delay
 // v -> speed
 void loop() {
-  if (chek < 4)
+  if (chek < 3)
   {
     IR();
+    IR();
     ultrasound();
+  }else{
+  lcd.clear();
+  lcd.println("Reached");
+  lcd.setCursor(0,1);
+  lcd.println("Destination");
   }
 }
 
@@ -76,63 +85,43 @@ IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
 if (IR1_Val == 1 && IR2_Val == 1){
   //stops
   lcd.println("stop");
-  switch (chek)
-  {
-  case 1:
-    switch (il)
+    switch (Mohg[chek])
     {
     case 0:
-  move(2,3,470,120);
+  move(2,3,470,150);
       //left 
       ++chek;
       break;
     case 1:
-  move(3,2,420,120); //forward
+  move(3,2,420,150); //forward
    ++chek;
       break;
     case 2:
-  move(1,2,470,120);
+  move(1,2,470,150);
     //right 
       ++chek;
       break;
+    case 3:
+  move(3,4,150,80); //stop
+      ++chek;
+      break; 
     default:
+  move(3,4,150,80); //stop
       break;
     }
-    break;
- case 2:
- switch (yl)
-    {
-    case 0:
-     move(2,3,470,120);
-      //left
-       ++chek;
-      break;
-    case 1:
-    move(3,2,420,120);
-    //forward 
-    ++chek;
-      break;
-    case 2:
-    move(1,2,470,120);
-    //right 
-    ++chek;
-      break;
-  default:
-    break;
-  }
-}
+    
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
 lcd.println("right"); 
- move(1,2,150,90);move(2,2,150,90);
+ move(1,2,120,120);move(2,2,120,120);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
 lcd.println("left");
-  move(2,3,150,90);move(1,3,150,90);
+  move(2,3,120,120);move(1,3,120,120);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
 lcd.println("forward");
-  move(3,2,150,80);
+  move(3,2,120,100);
   // x, 1 -> left motor , 2 -> right motor , 3 -> both motors
 // y, 1 -> no run, 2 -> forward, 3 -> reverse, 4 -> brake
 }else{
@@ -222,17 +211,23 @@ void move(int x, int y, int z, int v)
 
 void ultrasound (void)
 {
-  digitalWrite(tripin, HIGH);
-        delayMicroseconds(10);
-        digitalWrite(tripin, LOW);
-        delayMicroseconds(10);
-        int dist = pulseIn(echopin, HIGH) / 58;
-  if (dist<10)
+  digitalWrite(tripin_left, HIGH);
+        delayMicroseconds(3);
+        digitalWrite(tripin_left, LOW);
+        delayMicroseconds(3);
+        int dist_1 = pulseIn(echopin_left, HIGH) / 58;
+  digitalWrite(tripin_right, HIGH);
+        delayMicroseconds(3);
+        digitalWrite(tripin_right, LOW);
+        delayMicroseconds(3);
+        int dist_2 = pulseIn(echopin_right, HIGH) / 58;
+  if (dist_1 < 10||dist_2 < 10)
   {
     lcd.println("Path Blocked!!!");
      move (3,3,50,200);
-     for (auto de = 0; de < 20; de++)
+     for (targetvalue = 1; targetvalue != 0;)
      {
+     targetvalue = digitalRead(target);
      digitalWrite(buzzer,HIGH);
      delay(2);
     digitalWrite(buzzer,LOW);
@@ -241,6 +236,8 @@ void ultrasound (void)
   lcd.clear();
   return;
   }
+  targetvalue = 1;
+  
   return;
 }
 
