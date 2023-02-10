@@ -11,11 +11,10 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define IR1Pin 4 
 #define IR2Pin 2
 #define target A1
-int IR1_Val = 0, IR2_Val = 0;
 #define buzzer A0
+int IR1_Val = 0, IR2_Val = 0, chek = 0;
+int Mohg [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = end
 // int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int il = 0 ,yl = 2 ,chek = 0;
-int Mohg [3] = {2,0,3};
 // int mohg = 2 ; Address Variable 1 ~ 9 **WIP
 int halt = 0 , targetvalue = 1;
 
@@ -32,6 +31,7 @@ void move(int x, int y, int z, int v);
 void ultrasound(void);
 void lcdscreen(int address);
 void buzzersoundsound(void);
+void targetboardboard(void);
 void IR(void);
 // void Pathfindr(void); **WIP
 void targetboard(void);
@@ -220,24 +220,16 @@ void ultrasound (void)
         delayMicroseconds(3);
         digitalWrite(tripin_right, LOW);
         delayMicroseconds(3);
-        int dist_2 = pulseIn(echopin_right, HIGH) / 58;
+        int dist_2 = pulseIn(echopin_right, HIGH) / 58; // Sending Ultrasonic signals
   if (dist_1 < 10||dist_2 < 10)
   {
     lcd.println("Path Blocked!!!");
      move (3,3,50,200);
-     for (targetvalue = 1; targetvalue != 0;)
-     {
-     targetvalue = digitalRead(target);
-     digitalWrite(buzzer,HIGH);
-     delay(2);
-    digitalWrite(buzzer,LOW);
-    delay(1);
-     }
+     targetboardboard();
+  }
   lcd.clear();
   return;
-  }
   targetvalue = 1;
-  
   return;
 }
 
@@ -253,14 +245,10 @@ void lcdscreen(int address)
 
 void buzzersoundsound (void)
 {
-  for(int i=0;i<11;i++)
-    {
-    digitalWrite(buzzer,HIGH);
+     digitalWrite(buzzer,HIGH);
+     delay(2);
+    digitalWrite(buzzer,LOW);
     delay(1);
-                digitalWrite(buzzer,LOW);
-                delay(1);
-    }
-       delay(500);
 }
 
 /* void Pathfindr(void)
@@ -277,8 +265,31 @@ void buzzersoundsound (void)
       }
     }
     yl = 0;
-  } ** WIP
-} */
+  } 
+} 
+  for(int i=0;i<11;i++)
+    {
+    digitalWrite(buzzer,HIGH);
+    delay(1);
+                digitalWrite(buzzer,LOW);
+                delay(1);
+    }
+       delay(500); WIP** */ 
+
+
+
+
+void targetboardboard (void){
+     for (targetvalue = 1; targetvalue != 0;)
+     {
+     targetvalue = digitalRead(target);
+     buzzersoundsound();
+     }
+}
+
+
+
+
 
 void targetboard(void)
 {
