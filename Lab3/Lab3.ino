@@ -17,8 +17,6 @@ int address_arr [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = end
 // int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
 int halt = 0 , targetvalue = 1;
 
-
-
 // left 9 6
 // right 5 3
 
