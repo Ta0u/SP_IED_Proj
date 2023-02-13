@@ -243,7 +243,7 @@ void targetboardboard (void){
      }
 }
 
-void targetboard(void)
+/*void targetboard(void)
 {
 targetvalue = digitalRead(target);
 if (targetvalue == 0)
@@ -268,4 +268,4 @@ if (targetvalue == 0)
 halt = 0;
 lcd.clear();
 return;
-}
+}*/
