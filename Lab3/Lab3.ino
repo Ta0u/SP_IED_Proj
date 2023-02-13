@@ -74,7 +74,7 @@ IR1_Val = digitalRead(IR1Pin); // Reading and storing IR sensor 1 signal value
 IR2_Val = digitalRead(IR2Pin); // Reading and storing IR sensor 2 signal value
   // 1=black 0=white pin2,IR2=left pin4,IR1=right
 if (IR1_Val == 1 && IR2_Val == 1){
-  //junction, decide direction to proceed
+  //both black=junction, decide direction to proceed
   lcd.println("Junction");
     switch (address_arr[junc_count])
     {
