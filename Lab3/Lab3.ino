@@ -13,9 +13,9 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define target A1
 #define buzzer A0
 int IR1_Val = 0, IR2_Val = 0, junc_count = 0;
-int address_arr [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = stop
+int address_arr [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = stop (Junction array)
 // int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
-int halt = 0 , targetvalue = 1;
+int targetvalue = 1;
 
 // left 9 6
 // right 5 3
@@ -212,8 +212,6 @@ void ultrasound (void)
   }
   lcd.clear();
   return;
-  targetvalue = 1;
-  return;
 }
 
 
@@ -226,7 +224,7 @@ void buzzersoundsound (void)
 }
 
 void targetboardboard (void){
-     for (targetvalue = 1; targetvalue != 0;)
+     for (targetvalue = 1; targetvalue != 0;) // robot stops until targetboard is hit with laser
      {
      targetvalue = digitalRead(target);
      buzzersoundsound();
