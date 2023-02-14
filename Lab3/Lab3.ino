@@ -31,8 +31,6 @@ void buzzersoundsound(void);
 void targetboardboard(void);
 void IR(void);
 //void targetboard(void);
-char x;
-int y, z;
 
 void setup() {
   pinMode(9, OUTPUT);
