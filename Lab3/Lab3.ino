@@ -14,7 +14,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define buzzer A0
 int IR1_Val = 0, IR2_Val = 0, junc_count = 0;
 int address_arr [3] = {2,0,3}; // 0 = left, 1 = forward, 2 = right, 3 = stop (Junction array)
-// int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}};
+// int AddrList[3][3]= {{1,2,3},{4,5,6},{7,8,9}}; (To be implemented in the future)
 int targetvalue = 1;
 
 // left 9 6
