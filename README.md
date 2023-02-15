@@ -1,5 +1,4 @@
-Tao testing,
+This is the Master branch of the DCPE IED project..
 
-- Mostly for latest edits from tao, builds can be unstable...
-- ->>> Refer to main for most stable build..
+Refer to this for final presentation...
 
