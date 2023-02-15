@@ -81,7 +81,7 @@ if (IR1_Val == 1 && IR2_Val == 1){
     switch (address_arr[junc_count]) // direction to take at junction
     {
     case 0:
-      move(2,3,470,150);//left
+      move(2,2,470,150);//left
       ++junc_count;
       break;
     case 1:
@@ -103,19 +103,19 @@ if (IR1_Val == 1 && IR2_Val == 1){
 }else if(IR1_Val == 1 && IR2_Val == 0){
 // turn right
     lcd.println("Right"); 
-    move(1,2,120,120);move(2,2,120,120);
+    move(1,2,80,100);move(2,3,80,90);
 }else if(IR1_Val == 0 && IR2_Val ==1){
 // turn left
     lcd.println("Left");
-    move(2,3,120,120);move(1,3,120,120);
+    move(2,2,80,100);move(1,3,80,90);
 }else if (IR1_Val == 0 && IR2_Val == 0){
 // forward
     lcd.println("Forward");
-    move(3,2,120,100);
+    move(3,2,80,100);
 }else{
 // stop
     lcd.println("Stop");
-    move(3,4,150,80);
+    move(3,4,80,80);
 }
     lcd.clear();
 }
@@ -164,8 +164,8 @@ void move(int motor, int action, int duration, int velocity)
     break;
     case 2:
     {
-      analogWrite(right_a, c);
-      analogWrite(right_b, d);
+      analogWrite(right_a, d);
+      analogWrite(right_b, c);
       delay(duration);
       analogWrite(right_a, 200);
       analogWrite(right_b, 200);
